@@ -3,29 +3,49 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<meta name="color-scheme" content="light dark" />
+		<!-- <meta name="color-scheme" content="light dark" /> -->
+
+		<link rel="stylesheet" href="/styles/css/main.css" />
 	</head>
 	<body>
-		<div id="header-container">
-			<header>
-                <h1>ashistry</h1>
-                <ul>
-                    <li>home</li>
-                    <li>blog</li>
-                    <li>xml</li>
-                    <li>contact</li>
-                </ul>
-            </header>
-		</div>
+		<div id="body-container" class="flex-container">
+			<div id="header-container" class="flex-container">
+				<header>
+					<div id="title-container" class="flex-container">
+						<h1>ashistry</h1>
+					</div>
+					<div id="menu-container" class="flex-container">
+						<ul>
+							<li><a href="/">home</a></li>
+							<li><a href="/blog">blog</a></li>
+							<li><a href="mailto:ashistry@proton.me">contact</a></li>
+						</ul>
+					</div>
+				</header>
+			</div>
 
-		<div id="main-container">
-			<main>
-                <p>test</p>
-            </main>
-		</div>
+			<div id="main-container" class="flex-container">
+				<main>
 
-		<div id="footer-container">
-			<footer><p>Copyright 2025-2026 <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a></p></footer>
+					<h2> hello and welcome!</h2>
+					<p>This is my personal website! You can find some of my projects below, or you can check out my blog from the top menu. <br>
+						<br>Here you can expect many things, but especially things related to development, self-study, cooking and some more artsy stuff.
+						<br> I hope you enjoy the things I've made as much as I've enjoyed making them! <br>
+						<span id="signature">-Ash</span>
+					</p>
+
+				</main>
+			</div>
+
+			<div id="footer-container" class="flex-container">
+				<footer>
+					<p>
+						Copyright 2025-2026
+						<a href="https://creativecommons.org/licenses/by-sa/4.0/"
+							>CC BY-SA</a>
+					</p>
+				</footer>
+			</div>
 		</div>
 	</body>
 </html>

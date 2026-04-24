@@ -1,0 +1,90 @@
+
+
+#signature {
+    font-style: italic;
+}
+
+
+body {
+	background-color: #262729;
+	color: #f8f9fa;
+	font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body a {
+	color: #ff67a6;
+    text-decoration: none;
+}
+
+body header h1 {
+	color: #f8f9fa;
+}
+
+code {
+	white-space: pre-wrap; /* Wraps the code */
+	word-wrap: normal; /* Breaks long words */
+	overflow-wrap: break-word; /* Breaks at whole words */
+}
+
+#body-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#main-container {
+	width: 100%;
+	max-width: 700px;
+	margin: 0 auto;
+	word-wrap: normal;
+	overflow-wrap: break-word;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border: 2px solid #ee9db8;
+	border-top: none;
+	padding: 10px;
+	text-align: center; /* Add this */
+}
+
+#menu-container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#menu-container ul {
+	display: flex; /* Enable flexbox */
+	flex-direction: column; /* Change to column if you want a vertical layout */
+	justify-content: center; /* Center items horizontally */
+	align-items: center; /* Center items vertically */
+	list-style-type: none;
+	font-weight: bold;
+}
+#menu-container ul li {
+	padding-top: 1px;
+}
+
+#footer-container {
+	display: flex;
+	justify-content: center;
+}
+
+#title-container {
+	display: flex;
+	justify-content: center;
+	line-height: 0; /* Adjust line height */
+}
+
+#header-container {
+	border: 2px solid #ee9db8;
+	width: 100%; /* Set width to 100% to match the main container */
+	max-width: 724px; /* Match the max width of the main container */
+	padding: 10px;
+	display: flex;
+	justify-content: center;
+	margin: 0 auto; /* Center the header container */
+	box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+/*# sourceMappingURL=main.css.map */
