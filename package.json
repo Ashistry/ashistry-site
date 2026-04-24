@@ -4,7 +4,7 @@
   "description": "this is the repo for my personal website, www.ashistry.eu",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "sass"
   },
   "keywords": [],
   "author": "",
