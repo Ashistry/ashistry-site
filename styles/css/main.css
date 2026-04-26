@@ -41,6 +41,7 @@ body header h1 {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center; /* Add this */
 }
 
 #menu-container ul {
@@ -50,10 +51,14 @@ body header h1 {
   align-items: center;
   list-style-type: none;
   font-weight: bold;
+  margin: 0;
+  padding: 0;
 }
 
 #menu-container ul li {
   padding-top: 1px;
+  margin: 0;
+  padding: 1px 0;
 }
 
 #main-container {
