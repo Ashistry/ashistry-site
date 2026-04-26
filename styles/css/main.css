@@ -58,7 +58,7 @@ body header h1 {
 
 #main-container {
   width: 100%;
-  max-width: 700px;
+  max-width: 724px;
   margin: 0 auto;
   word-wrap: normal;
   overflow-wrap: break-word;
@@ -69,6 +69,7 @@ body header h1 {
   border-top: none;
   padding: 10px;
   text-align: center;
+  box-sizing: border-box;
 }
 
 #footer-container {
