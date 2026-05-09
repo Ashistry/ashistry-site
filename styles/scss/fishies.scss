@@ -1,3 +1,5 @@
+// layout styles
+
 body {
 	background-color: #262729;
 	color: #f8f9fa;
@@ -36,12 +38,11 @@ body header h1 {
 	justify-content: center;
 	line-height: 0;
 }
-
 #menu-container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	justify-content: center; 
 }
 
 #menu-container ul {
@@ -51,16 +52,14 @@ body header h1 {
 	align-items: center;
 	list-style-type: none;
 	font-weight: bold;
-	margin: 0;
-	padding: 0;
+	margin: 0; 
+	padding: 0; 
 }
-
 #menu-container ul li {
 	padding-top: 1px;
-	margin: 0;
-	padding: 1px 0;
+	margin: 0; 
+	padding: 1px 0; 
 }
-
 #main-container {
 	width: 100%;
 	max-width: 724px;
@@ -82,6 +81,8 @@ body header h1 {
 	justify-content: center;
 }
 
+// misc.
+
 code {
 	white-space: pre-wrap;
 	word-wrap: normal;
@@ -91,5 +92,3 @@ code {
 #signature {
 	font-style: italic;
 }
-
-/*# sourceMappingURL=main.css.map */

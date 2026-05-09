@@ -1,0 +1,95 @@
+body {
+  background-color: #262729;
+  color: #f8f9fa;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body a {
+  color: #ff67a6;
+  text-decoration: none;
+}
+
+body header h1 {
+  color: #f8f9fa;
+}
+
+#body-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-container {
+  border: 2px solid #ee9db8;
+  width: 100%;
+  max-width: 724px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+#title-container {
+  display: flex;
+  justify-content: center;
+  line-height: 0;
+}
+
+#menu-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#menu-container ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+#menu-container ul li {
+  padding-top: 1px;
+  margin: 0;
+  padding: 1px 0;
+}
+
+#main-container {
+  width: 100%;
+  max-width: 724px;
+  margin: 0 auto;
+  word-wrap: normal;
+  overflow-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 2px solid #9dd0ee;
+
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+#footer-container {
+  display: flex;
+  justify-content: center;
+}
+
+code {
+  white-space: pre-wrap;
+  word-wrap: normal;
+  overflow-wrap: break-word;
+}
+
+#signature {
+  font-style: italic;
+}
+
+/*# sourceMappingURL=fishies.css.map */
