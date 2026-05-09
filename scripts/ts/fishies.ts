@@ -3,6 +3,7 @@
 
 // custom types
 type RGB = [number, number, number];
+type FishId = string;
 
 // GAME FRAMEWORK
 class Main {
@@ -82,7 +83,7 @@ class FishManager {
 		//if in normal storage, move to deep storage. If in deep storage, move to storage.
 	}
 
-	public static breedFish() {}
+	public static breedFish(parentOne:Fish,parentTwo:Fish) {}
 }
 
 // GAMEPLAY
