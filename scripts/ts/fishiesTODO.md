@@ -1,2 +1,0 @@
-RGB validation
-name list
