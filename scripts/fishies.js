@@ -14,13 +14,15 @@ class Main {
     }
     // Start the game loop
     static start() {
-        setInterval(() => Main.tick(), Main.tickInterval);
+        clearInterval(Main.timer);
+        Main.timer = setInterval(() => Main.tick(), gameConfig.tickInterval);
+    }
+    static stop() {
+        clearInterval(Main.timer);
     }
 }
 //stay global
-Main.resetAt = 1000;
 Main.counter = 0;
-Main.tickInterval = 1000; //ms
 // class DeveloperMode {
 // 	//stay global
 // 	private static readonly probabilityModifier: number = 1; //unimplemented
@@ -37,8 +39,6 @@ class SaveManager {
     //state methods
     getGameState() { }
     setLocalStorageAsGameState() { }
-}
-class LocalStorageManager {
     getLocalStorage() {
         //get local storage, then use setLocalStorageAsGameState()
     }
@@ -46,44 +46,93 @@ class LocalStorageManager {
         //get game state and save as local storage
     }
 }
+class GameConfig {
+    constructor(resetAt, tickInterval) {
+        this.resetAt = resetAt;
+        this.tickInterval = tickInterval;
+    }
+}
+class PlayerConfig {
+}
 //framework instances
-const localStorageManager = new LocalStorageManager();
+const gameConfig = new GameConfig(1000, 1000);
 const saveManager = new SaveManager();
 // FISH
+class FishNames {
+    constructor(namesToSet) {
+        this.namesToSet = namesToSet;
+        this.fishNamesArray = namesToSet;
+    }
+    randomName() {
+        const result = Utility.randomArrayMember(this.fishNamesArray);
+        if (typeof result !== "string") {
+            throw new Error(`${result} is not a string!`);
+            //TODO: this should never be able to happen. maybe i can make it so it retries for a different name rather than throwing?
+            // that should only retry a certain amount of times before genuinely Throwing then.
+        }
+        else {
+            return result;
+        }
+    }
+}
 class Fish {
-    constructor(id, color) {
+    constructor(id, name, color) {
         this.id = id;
+        this.name = name;
         this.color = color;
     }
+}
+class FishFactory {
 }
 class FishStorage {
     constructor(defaults = []) {
         this.map = new Map(defaults);
     }
+    static empty() {
+        return new FishStorage();
+    }
+    static fromFish(...fishes) {
+        return new FishStorage(fishes.map((fish) => [fish.id, fish]));
+    }
     getFish(id) {
         return this.map.get(id);
     }
-    setFish(id, fish) {
-        this.map.set(id, fish);
+    addFish(fish) {
+        this.map.set(fish.id, fish);
     }
-    removeFish(fishToDeleteId) {
-        this.map.delete(fishToDeleteId);
+    removeFish(id) {
+        this.map.delete(id);
+    }
+}
+class IdManager {
+    constructor() {
+        this.idSet = new Set([1, 2, 3]);
+    }
+    createFishId() {
+        let counter = 1; //technically we always expect 1-3 to be taken because of ancestors, but let's be thorough. its o(n) anyway.
+        while (this.idSet.has(counter) === true) {
+            counter++;
+        }
+        return counter;
+        // return that id
+    }
+    removeFishId(id) {
+        this.idSet.delete(id);
     }
 }
 class FishManager {
-    constructor(storage, deepStorage) {
-        this.storage = storage;
-        this.deepStorage = deepStorage;
+    constructor(options) {
+        this.storage = options.storage;
+        this.deepStorage = options.deepStorage;
+        this.fishNames = options.fishNames;
     }
     getFishById(id) {
         const fish = this.storage.getFish(id);
         if (fish) {
-            //found in this.fishStorage
             return fish;
         }
         const deepFish = this.deepStorage.getFish(id);
         if (deepFish) {
-            // found in this.deepStorage
             return deepFish;
         }
         throw new Error(`Fish with id ${id} not found`);
@@ -91,34 +140,32 @@ class FishManager {
     getFishStorageById(id) {
         const fish = this.storage.getFish(id);
         if (fish) {
-            //found in this.fishStorage
             return this.storage;
         }
         const deepFish = this.deepStorage.getFish(id);
         if (deepFish) {
-            // found in this.deepStorage
             return this.deepStorage;
         }
-        throw new Error(`Fish with id ${id} not found in any storage`);
+        throw new Error(`Fish with id ${id} not found in any storage`); //TODO: this should not throw. we should handle this properly at some point.
     }
-    getFishRGBbyId(id) {
-        return this.getFishById(id).color;
+    deleteFish(id) {
+        const fishToRemoveLocation = this.getFishStorageById(id);
+        fishToRemoveLocation.removeFish(id);
     }
-    removeFish(id) { } //TODO
     moveFish(id, destination) {
         const fishToMove = this.getFishById(id);
         const fishToMoveOrigin = this.getFishStorageById(fishToMove.id);
         if (destination === fishToMoveOrigin) {
-            console.warn(`fish with id ${id} already lives in ${destination}, nothing will happen.`);
+            console.info(`fish with id ${id} already lives in ${destination}, nothing will happen.`);
             return;
         }
         switch (destination) {
             case this.storage:
-                this.storage.setFish(fishToMove.id, fishToMove);
+                this.storage.addFish(fishToMove);
                 fishToMoveOrigin.removeFish(fishToMove.id);
                 break;
             case this.deepStorage:
-                this.deepStorage.setFish(fishToMove.id, fishToMove);
+                this.deepStorage.addFish(fishToMove);
                 fishToMoveOrigin.removeFish(fishToMove.id);
                 break;
             default:
@@ -126,44 +173,49 @@ class FishManager {
         }
     }
     breedFish(parentOneId, parentTwoId) {
-        const parentOneRGB = this.getFishRGBbyId(parentOneId);
-        const parentTwoRGB = this.getFishRGBbyId(parentTwoId);
+        const parentOneRGB = this.getFishById(parentOneId).color;
+        const parentTwoRGB = this.getFishById(parentTwoId).color;
         const newRGB = Utility.meanRGB(parentOneRGB, parentTwoRGB);
-    } //TODO
+        //we won't add it anywhere, the player will be prompted to ask where they would like to put the new Fish.
+    } //TODO: personality, id and name assignment
 }
 //instantiations
-const fishStorage = new FishStorage([
-    ["ancestorRed", new Fish("ancestorRed", [255, 0, 0])],
-    ["ancestorGreen", new Fish("ancestorGreen", [0, 255, 0])],
-    ["ancestorBlue", new Fish("ancestorBlue", [0, 0, 255])],
-]);
-const deepStorage = new FishStorage();
-const fishManager = new FishManager(fishStorage, deepStorage);
+const storage = FishStorage.fromFish(new Fish(1, "redditor", [255, 0, 0]), new Fish(2, "greenhorn", [0, 255, 0]), new Fish(3, "blues", [0, 0, 255]));
+const fishNames = new FishNames(["bob", "melissa", "bartholamew"]);
+const deepStorage = FishStorage.empty();
+const fishManager = new FishManager({ storage, deepStorage, fishNames });
 // GAMEPLAY
 // UTILITY
 class Utility {
-    // public static validateRGB(x: unknown): boolean {
-    // 	// Type guard
-    // 	if (!Array.isArray(x) || !x.every((item) => typeof item === "number")) {
-    // 		console.error(`${x} is not a valid number array!`);
-    // 		return false;
-    // 	}
-    // 	// Length check
-    // 	if (x.length !== 3) {
-    // 		console.error(`array of numbers ${x} is not 3 long!`);
-    // 		return false;
-    // 	}
-    // 	// Range check
-    // 	for (const num of x) {
-    // 		if (num < 0 || num > 255) {
-    // 			console.error(`Invalid value: ${num} must be 0-255`);
-    // 			return false;
-    // 		}
-    // 	}
-    // 	return true;
-    // }
+    static validateRGB(x) {
+        if (!Array.isArray(x) || !x.every((item) => typeof item === "number")) {
+            console.error(`${x} is not a valid number array!`);
+            return false;
+        }
+        //length check
+        if (x.length !== 3) {
+            console.error(`array of numbers ${x} is not 3 long!`);
+            return false;
+        }
+        //range check
+        for (const num of x) {
+            if (num < 0 || num > 255) {
+                console.error(`Invalid value: ${num} must be 0-255`);
+                return false;
+            }
+        }
+        return true;
+    }
     static meanRGB(RGB1, RGB2) {
-        const result = [RGB1[0] + RGB2[0], RGB1[1] + RGB2[1], RGB1[2] + RGB2[2]];
+        const result = [
+            (RGB1[0] + RGB2[0]) / 2,
+            (RGB1[1] + RGB2[1]) / 2,
+            (RGB1[2] + RGB2[2]) / 2,
+        ];
+        return result;
+    }
+    static randomArrayMember(array) {
+        const result = array[Math.floor(Math.random() * array.length)];
         return result;
     }
 }
