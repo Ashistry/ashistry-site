@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Utility = void 0;
-class Utility {
+export class Utility {
     static validateRGB(x) {
         if (!Array.isArray(x) || !x.every((item) => typeof item === "number")) {
             console.error(`${x} is not a valid number array!`);
@@ -50,4 +47,4 @@ class Utility {
         }
     }
 }
-exports.Utility = Utility;
+console.log("hello from test utility!");

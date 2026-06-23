@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.game = exports.Game = exports.saveManager = exports.SaveManager = exports.LocalStorageManager = exports.gameConfig = exports.GameConfig = void 0;
-class GameConfig {
+export class GameConfig {
     resetAt;
     tickInterval;
     constructor(resetAt, tickInterval) {
@@ -9,12 +6,10 @@ class GameConfig {
         this.tickInterval = tickInterval;
     }
 }
-exports.GameConfig = GameConfig;
-exports.gameConfig = new GameConfig(1000, 1000);
-class LocalStorageManager {
+export const gameConfig = new GameConfig(1000, 1000);
+export class LocalStorageManager {
 }
-exports.LocalStorageManager = LocalStorageManager;
-class SaveManager {
+export class SaveManager {
     //state methods
     getGameState() { }
     setLocalStorageAsGameState() { }
@@ -25,9 +20,8 @@ class SaveManager {
         //get game state and save as local storage
     }
 }
-exports.SaveManager = SaveManager;
-exports.saveManager = new SaveManager(); //since Game is a singleton, we dont need to worry about what Game instance the save manager is associated with
-class Game {
+export const saveManager = new SaveManager(); //since Game is a singleton, we dont need to worry about what Game instance the save manager is associated with
+export class Game {
     config;
     counter = 0;
     timer = undefined;
@@ -66,5 +60,4 @@ class Game {
         }
     }
 }
-exports.Game = Game;
-exports.game = Game.createGame(exports.gameConfig);
+export const game = Game.createGame(gameConfig);

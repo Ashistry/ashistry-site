@@ -62,3 +62,5 @@ export class Utility {
 		}
 	}
 }
+
+console.log("hello from test utility!");

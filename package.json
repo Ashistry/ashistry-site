@@ -6,7 +6,7 @@
   "scripts": {
     "build-css": "sass --watch styles/scss:styles/css",
     "build-fishies": "vite build",
-    "dev": "npm run build-css"
+    "dev": "sass styles/scss:styles/css&&npx tsc&&npm run build-fishies"
   },
   "keywords": [],
   "author": "",

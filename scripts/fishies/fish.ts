@@ -4,8 +4,8 @@ import {
 	type FishName,
 	type FishPersonality,
 	PersonalityTraits,
-} from "./types";
-import { Utility } from "./utility";
+} from "./types.js";
+import { Utility } from "./utility.js";
 
 export class FishNames {
 	private fishNamesArray: Array<string>;

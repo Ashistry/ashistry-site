@@ -1,16 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.fishStorageManager = exports.FishStorageManager = exports.deepStorage = exports.DeepStorage = exports.activeStorage = exports.ActiveStorage = exports.FishStorage = exports.fishFactory = exports.FishFactory = exports.Fish = exports.fishNames = exports.FishNames = void 0;
-const types_1 = require("./types");
-const utility_1 = require("./utility");
-class FishNames {
+import { PersonalityTraits, } from "./types.js";
+import { Utility } from "./utility.js";
+export class FishNames {
     fishNamesArray;
     constructor(namesToSet) {
         this.fishNamesArray = namesToSet;
     }
     randomName(maxRetries = 3) {
         for (let attempt = 0; attempt <= maxRetries; attempt++) {
-            const result = utility_1.Utility.randomArrayMember(this.fishNamesArray);
+            const result = Utility.randomArrayMember(this.fishNamesArray);
             if (result && typeof result === "string") {
                 return result;
             }
@@ -22,9 +19,8 @@ class FishNames {
         throw new Error("Unreachable");
     }
 }
-exports.FishNames = FishNames;
-exports.fishNames = new FishNames(["bob", "melissa", "bartholamew"]);
-class Fish {
+export const fishNames = new FishNames(["bob", "melissa", "bartholamew"]);
+export class Fish {
     UUID;
     name;
     color;
@@ -36,8 +32,7 @@ class Fish {
         this.personality = personality;
     }
 }
-exports.Fish = Fish;
-class FishFactory {
+export class FishFactory {
     names;
     constructor(names) {
         this.names = names;
@@ -47,16 +42,15 @@ class FishFactory {
         //add to a storage or do whatever
     }
     breedFish(parent1, parent2) {
-        const childColor = utility_1.Utility.meanRGB(parent1.color, parent2.color);
+        const childColor = Utility.meanRGB(parent1.color, parent2.color);
         const childName = this.names.randomName();
         const childPersonality = parent1.personality; //placeholder
         const childUUID = crypto.randomUUID();
         this.createFish(childUUID, childName, childColor, childPersonality);
     }
 }
-exports.FishFactory = FishFactory;
-exports.fishFactory = new FishFactory(exports.fishNames);
-class FishStorage {
+export const fishFactory = new FishFactory(fishNames);
+export class FishStorage {
     map;
     constructor(defaults = []) {
         this.map = new Map(defaults);
@@ -77,8 +71,7 @@ class FishStorage {
         this.map.delete(UUID);
     }
 }
-exports.FishStorage = FishStorage;
-class ActiveStorage extends FishStorage {
+export class ActiveStorage extends FishStorage {
     static empty() {
         return new ActiveStorage();
     }
@@ -86,12 +79,11 @@ class ActiveStorage extends FishStorage {
         return new ActiveStorage(fishes.map((fish) => [fish.UUID, fish]));
     }
 }
-exports.ActiveStorage = ActiveStorage;
-const redFish = exports.fishFactory.createFish(crypto.randomUUID(), "redditor", [255, 0, 0], [utility_1.Utility.randEnumValue(types_1.PersonalityTraits)]);
-const greenFish = exports.fishFactory.createFish(crypto.randomUUID(), "greenhorn", [0, 255, 0], [utility_1.Utility.randEnumValue(types_1.PersonalityTraits)]);
-const blueFish = exports.fishFactory.createFish(crypto.randomUUID(), "bluegill", [0, 0, 255], [utility_1.Utility.randEnumValue(types_1.PersonalityTraits)]);
-exports.activeStorage = ActiveStorage.fromFish(redFish, greenFish, blueFish);
-class DeepStorage extends FishStorage {
+const redFish = fishFactory.createFish(crypto.randomUUID(), "redditor", [255, 0, 0], [Utility.randEnumValue(PersonalityTraits)]);
+const greenFish = fishFactory.createFish(crypto.randomUUID(), "greenhorn", [0, 255, 0], [Utility.randEnumValue(PersonalityTraits)]);
+const blueFish = fishFactory.createFish(crypto.randomUUID(), "bluegill", [0, 0, 255], [Utility.randEnumValue(PersonalityTraits)]);
+export const activeStorage = ActiveStorage.fromFish(redFish, greenFish, blueFish);
+export class DeepStorage extends FishStorage {
     static empty() {
         return new DeepStorage();
     }
@@ -99,9 +91,8 @@ class DeepStorage extends FishStorage {
         return new DeepStorage(fishes.map((fish) => [fish.UUID, fish]));
     }
 }
-exports.DeepStorage = DeepStorage;
-exports.deepStorage = DeepStorage.empty();
-class FishStorageManager {
+export const deepStorage = DeepStorage.empty();
+export class FishStorageManager {
     activeStorageManaged;
     deepStorageManaged;
     constructor(activeStorageManaged, deepStorageManaged) {
@@ -148,5 +139,4 @@ class FishStorageManager {
         fishToMoveOrigin.removeFish(fishToMove.UUID);
     }
 }
-exports.FishStorageManager = FishStorageManager;
-exports.fishStorageManager = new FishStorageManager(exports.activeStorage, exports.deepStorage);
+export const fishStorageManager = new FishStorageManager(activeStorage, deepStorage);
