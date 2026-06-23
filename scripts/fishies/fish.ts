@@ -107,6 +107,12 @@ export class FishStorage {
 	public removeFish(UUID: FishUUID): void {
 		this.map.delete(UUID);
 	}
+
+	public readStorage(): void {
+		for (const [key, value] of this.map.entries()) {
+			console.log(`Key: ${key}, Value: ${JSON.stringify(value)}`);
+		}
+	}
 }
 
 export class ActiveStorage extends FishStorage {
@@ -123,7 +129,7 @@ const redFish: Fish = fishFactory.createFish(
 	crypto.randomUUID(),
 	"redditor",
 	[255, 0, 0],
-	[Utility.randEnumValue(PersonalityTraits)],
+	[Utility.randEnumValue(PersonalityTraits) as PersonalityTraits],
 );
 
 const greenFish: Fish = fishFactory.createFish(
@@ -223,3 +229,5 @@ export const fishStorageManager = new FishStorageManager(
 	activeStorage,
 	deepStorage,
 );
+
+console.info("fish loaded");

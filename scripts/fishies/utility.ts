@@ -34,9 +34,10 @@ export class Utility {
 	// Retrieved 2026-06-22, License - CC BY-SA 4.0
 
 	public static randEnumValue<T extends object>(enumObj: T): T[keyof T] {
-		const enumValues = Object.values(enumObj);
+		const enumValues = Object.values(enumObj).filter(
+			(v) => typeof v !== "number",
+		);
 		const index = Math.floor(Math.random() * enumValues.length);
-
 		return enumValues[index];
 	}
 
@@ -63,4 +64,4 @@ export class Utility {
 	}
 }
 
-console.log("hello from test utility!");
+console.info("utility loaded");

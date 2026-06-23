@@ -10,5 +10,7 @@ export enum PersonalityTraits {
 	lazy,
 }
 
+console.info("types loaded");
+
 // personalities will be implemented through keywords which decide what behaviours an individual might perform and at what rate.
 // example: a Fish with the "silly" trait may make funny noises more often.

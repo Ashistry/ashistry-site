@@ -1,4 +1,7 @@
-import "./fish.js";
-import "./technical.js";
-import "./types.js";
-import "./utility.js";
+import "./fish.ts";
+import "./technical.ts";
+import "./types.ts";
+import "./utility.ts";
+import "./UI.ts";
+
+console.info("barrel loaded");

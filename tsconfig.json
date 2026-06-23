@@ -12,6 +12,8 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "module": "NodeNext",
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     // Include the DOM types
     "lib": [
       "es2025",

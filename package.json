@@ -6,7 +6,7 @@
   "scripts": {
     "build-css": "sass --watch styles/scss:styles/css",
     "build-fishies": "vite build",
-    "dev": "sass styles/scss:styles/css&&npx tsc&&npm run build-fishies"
+    "dev": "sass styles/scss:styles/css&&npm run build-fishies"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +16,6 @@
     "sass": "^1.99.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.16"
-  }
+  },
+  "sideEffects": true
 }

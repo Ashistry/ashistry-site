@@ -75,3 +75,5 @@ export class Game {
 }
 
 export const game = Game.createGame(gameConfig);
+
+console.info("technical loaded");
