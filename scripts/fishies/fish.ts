@@ -108,10 +108,8 @@ export class FishStorage {
 		this.map.delete(UUID);
 	}
 
-	public readStorage(): void {
-		for (const [key, value] of this.map.entries()) {
-			console.log(`Key: ${key}, Value: ${JSON.stringify(value)}`);
-		}
+	public readStorage(): Map<FishUUID, Fish> {
+		return this.map;
 	}
 
 	public getLength(): number {

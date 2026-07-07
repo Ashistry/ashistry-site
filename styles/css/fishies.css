@@ -2,6 +2,24 @@ body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
+  background-color: #011936;
+}
+
+#sidebar > button:first-of-type {
+  margin-top: 20px;
+}
+
+button {
+  background: #011936;
+  color: white;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+#sidebar > button {
+  border: 1px solid #011936;
+  box-shadow: none;
+  border-radius: 10px;
 }
 
 #main-container {
@@ -11,15 +29,27 @@ body {
 }
 
 #pond {
-  background: #a8e6f0;
+  background: #B3EDFD;
   overflow: hidden;
   position: relative;
+  border: 4px solid #011936;
+  border-radius: 10px;
+  margin: 50px;
 }
 
 #sidebar {
   overflow-y: auto;
+  background-color: #B3EDFD;
+  border: 4px solid #011936;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
 }
 
+#titleImage {
+  width: 100%;
+}
 
 /* The Modal (background) */
 .modal {
@@ -40,7 +70,7 @@ body {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
+  border: 4px solid #011936;
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
@@ -58,5 +88,7 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+
 
 /*# sourceMappingURL=fishies.css.map */

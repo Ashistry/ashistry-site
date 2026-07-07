@@ -1,7 +1,37 @@
+$pond-color : #B3EDFD;
+$title-color : #F45B69;
+// $primary-color: #f3b3b8;
+$primary-color: #011936;
+$secondary-color: #011936;
+
+$border-color : $secondary-color;
+
+$border-width : 4px;
+
+$border-default: $border-width solid $border-color;
+
 body {
   margin: 0;
   height: 100vh;
   overflow: hidden;
+  background-color: $primary-color;
+}
+
+#sidebar > button:first-of-type {
+  margin-top: 20px;
+}
+
+button {
+    background: $primary-color;
+    color: white;
+    margin-bottom: 15px;
+    font-weight:bold;
+}
+
+#sidebar > button {
+  border: 1px solid $border-color;
+  box-shadow: none;
+  border-radius: 10px;
 }
 
 #main-container {
@@ -11,17 +41,31 @@ body {
 }
 
 #pond {
-  background: #a8e6f0;
+  background: $pond-color;
   overflow: hidden;
   position: relative;
+  border: $border-default;
+  border-radius: 10px;
+  // border-right: none;
+  margin: 50px;
 }
 
 #sidebar {
   overflow-y: auto;
+  background-color: $pond-color;
+  // border-top-right-radius: 10px;
+  // border-bottom-right-radius: 10px;
+  border: $border-width solid $border-color;
+  display: flex;
+  flex-direction: column;
+  padding:10px;
+  border-radius: 10px;
 }
 
-/*# sourceMappingURL=fishies.css.map */
 
+#titleImage {
+  width: 100%;
+}
 
 /* The Modal (background) */
 .modal {
@@ -42,7 +86,7 @@ body {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
-  border: 1px solid #888;
+  border: $border-default;
   width: 80%; /* Could be more or less, depending on screen size */
 }
 
@@ -60,3 +104,6 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
+
+/*# sourceMappingURL=fishies.css.map */

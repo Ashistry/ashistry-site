@@ -11,19 +11,31 @@ const pondHeightAdjustment: number = 100;
 const pondWidth: number = pondDiv.clientWidth - pondWidthAdjustment;
 const pondHeight: number = pondDiv.clientHeight - pondHeightAdjustment;
 
-function placeSpritesRandomly(activeStorage: ActiveStorage): void {
-	const activeStorageLength: number = activeStorage.getLength();
-	const fishSize = 100; // known size, since clientWidth/Height are 0 pre-append
+const minSpriteAdjustment: number = 1;
+const maxSpriteAdjustment: number = 25;
 
-	for (let i = 0; i < activeStorageLength; i++) {
+function placeSpritesRandomly(activeStorage: ActiveStorage): void {
+	const activeStorageContents = activeStorage.readStorage();
+	const activeStorageLength: number = activeStorage.getLength();
+	const fishSize = 100;
+
+	for (let [FishUUID, Fish] of activeStorageContents) {
 		const fishDiv: HTMLDivElement = document.createElement("div");
 		fishDiv.classList.add("fishSpriteDiv");
 		fishDiv.innerHTML = fishSprite;
+
+		const [r, g, b] = Fish.color;
+		const fishShapes = fishDiv.querySelectorAll("path");
+
+		fishShapes.forEach((shape) => {
+			(shape as SVGElement).style.fill = `rgb(${r}, ${g}, ${b})`;
+		});
+
 		fishDiv.style.position = "absolute";
 		fishDiv.style.width = "100px";
 		fishDiv.style.height = "100px";
 
-		const randomX = Math.random() * (pondWidth - fishSize);
+		const randomX = Math.random() * (pondWidth - fishSize); //prevent clipping
 		const randomY = Math.random() * (pondHeight - fishSize);
 		fishDiv.style.left = `${randomX}px`;
 		fishDiv.style.top = `${randomY}px`;
@@ -42,10 +54,10 @@ export function moveSprite(): void {
 		] as HTMLDivElement;
 
 		const randomAdjustmentX: number = Utility.plusOrMinus(
-			Utility.randomInRange(1, 50),
+			Utility.randomInRange(minSpriteAdjustment, maxSpriteAdjustment),
 		);
 		const randomAdjustmentY: number = Utility.plusOrMinus(
-			Utility.randomInRange(1, 50),
+			Utility.randomInRange(minSpriteAdjustment, maxSpriteAdjustment),
 		);
 
 		let currentLeft: number = parseInt(currentFishDiv.style.left) || 0;
