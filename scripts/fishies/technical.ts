@@ -48,6 +48,7 @@ export class Game {
 	// Start the game loop
 	public start(): void {
 		// if (this.timer !== undefined) return;
+		console.info("game starting");
 		clearInterval(this.timer);
 		this.timer = setInterval(() => this.tick(), this.config.tickInterval);
 	}
@@ -76,4 +77,5 @@ export class Game {
 
 export const game = Game.createGame(gameConfig);
 
-console.info("technical loaded");
+console.info("technical module loaded");
+game.start();

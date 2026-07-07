@@ -1,16 +1,34 @@
 import { activeStorage } from "./fish.js";
-import { PersonalityTraits } from "./types.ts";
 
 const testLogButton: HTMLElement = document.getElementById("logTester")!;
 const pondFishButton: HTMLElement = document.getElementById("pondFishButton")!;
 
-function testLog(): void {
-	console.log("hello");
+pondFishButton.addEventListener("click", () => activeStorage.readStorage());
+
+var modal = document.getElementById("myModal")!;
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn")!;
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0]!;
+
+// When the user clicks on the button, open the modal
+btn.onclick = function () {
+	modal.style.display = "block";
+};
+
+function close(): void {
+	modal.style.display = "none";
 }
 
-pondFishButton.addEventListener("click", () => activeStorage.readStorage());
-testLogButton.addEventListener("click", testLog);
+// When the user clicks on <span> (x), close the modal
+span.addEventListener("click", () => close());
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+};
 
-(window as any).PersonalityTraits = PersonalityTraits;
-
-export { testLog };
+console.info("UI module loaded");

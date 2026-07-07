@@ -64,4 +64,4 @@ export class Utility {
 	}
 }
 
-console.info("utility loaded");
+console.info("utility modulem loaded");

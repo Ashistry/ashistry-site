@@ -230,4 +230,4 @@ export const fishStorageManager = new FishStorageManager(
 	deepStorage,
 );
 
-console.info("fish loaded");
+console.info("fish module loaded");
