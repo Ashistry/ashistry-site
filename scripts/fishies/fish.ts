@@ -148,10 +148,64 @@ const blueFish: Fish = fishFactory.createFish(
 	[Utility.randEnumValue(PersonalityTraits)],
 );
 
+const dummyFishNames: string[] = [
+	"finley",
+	"coral",
+	"nemo-clone",
+	"guppy",
+	"marlin",
+	"dory-jr",
+	"gil",
+	"bloop",
+	"sushi",
+	"captain-fin",
+	"pebbles",
+	"splash",
+	"tango",
+	"wanda",
+	"chip",
+	"goldie",
+	"pearl",
+	"flounder-x",
+	"scales",
+	"bubbles",
+	"nibbles",
+	"finn",
+	"rio",
+	"sandy",
+	"coral-bell",
+	"mochi",
+	"swish",
+	"ripple",
+	"tidal",
+	"drift",
+	"glimmer",
+	"koi-boy",
+	"sunny",
+	"shadow-fin",
+	"puddle",
+	"whisker-fin",
+	"banjo",
+];
+
+// const dummyFish: Fish[] = dummyFishNames.map((name) =>
+// 	fishFactory.createFish(
+// 		crypto.randomUUID(),
+// 		name as FishName,
+// 		[
+// 			Utility.randomInRange(0, 255),
+// 			Utility.randomInRange(0, 255),
+// 			Utility.randomInRange(0, 255),
+// 		],
+// 		[Utility.randEnumValue(PersonalityTraits) as PersonalityTraits],
+// 	),
+// );
+
 export const activeStorage = ActiveStorage.fromFish(
 	redFish,
 	greenFish,
 	blueFish,
+	// ...dummyFish,
 );
 
 export class DeepStorage extends FishStorage {

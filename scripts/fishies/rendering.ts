@@ -11,22 +11,24 @@ const pondHeightAdjustment: number = 100;
 const pondWidth: number = pondDiv.clientWidth - pondWidthAdjustment;
 const pondHeight: number = pondDiv.clientHeight - pondHeightAdjustment;
 
-const minSpriteAdjustment: number = 1;
-const maxSpriteAdjustment: number = 25;
+const minSpriteAdjustment: number = 0;
+const maxSpriteAdjustment: number = 100;
+
+// Tracks each fish's current x/y position, since transform doesn't let us read it back out
+const fishPositions = new Map<string, { x: number; y: number }>();
 
 function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 	const activeStorageContents = activeStorage.readStorage();
-	const activeStorageLength: number = activeStorage.getLength();
 	const fishSize = 100;
 
-	for (let [FishUUID, Fish] of activeStorageContents) {
+	for (const [uuid, fish] of activeStorageContents) {
 		const fishDiv: HTMLDivElement = document.createElement("div");
 		fishDiv.classList.add("fishSpriteDiv");
+		fishDiv.dataset.fishUuid = uuid;
 		fishDiv.innerHTML = fishSprite;
 
-		const [r, g, b] = Fish.color;
+		const [r, g, b] = fish.color;
 		const fishShapes = fishDiv.querySelectorAll("path");
-
 		fishShapes.forEach((shape) => {
 			(shape as SVGElement).style.fill = `rgb(${r}, ${g}, ${b})`;
 		});
@@ -35,10 +37,14 @@ function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 		fishDiv.style.width = "100px";
 		fishDiv.style.height = "100px";
 
-		const randomX = Math.random() * (pondWidth - fishSize); //prevent clipping
+		// Smoothly animate any future transform changes over 1s
+		fishDiv.style.transition = "transform 1s ease-in-out";
+
+		const randomX = Math.random() * (pondWidth - fishSize);
 		const randomY = Math.random() * (pondHeight - fishSize);
-		fishDiv.style.left = `${randomX}px`;
-		fishDiv.style.top = `${randomY}px`;
+
+		fishPositions.set(uuid, { x: randomX, y: randomY });
+		fishDiv.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
 		pondDiv.appendChild(fishDiv);
 	}
@@ -53,6 +59,9 @@ export function moveSprite(): void {
 			i
 		] as HTMLDivElement;
 
+		const uuid = currentFishDiv.dataset.fishUuid!;
+		const currentPosition = fishPositions.get(uuid)!;
+
 		const randomAdjustmentX: number = Utility.plusOrMinus(
 			Utility.randomInRange(minSpriteAdjustment, maxSpriteAdjustment),
 		);
@@ -60,19 +69,16 @@ export function moveSprite(): void {
 			Utility.randomInRange(minSpriteAdjustment, maxSpriteAdjustment),
 		);
 
-		let currentLeft: number = parseInt(currentFishDiv.style.left) || 0;
-		let currentTop: number = parseInt(currentFishDiv.style.top) || 0;
+		let newX = currentPosition.x + randomAdjustmentX;
+		let newY = currentPosition.y + randomAdjustmentY;
 
-		let newLeft = currentLeft + randomAdjustmentX;
-		let newTop = currentTop + randomAdjustmentY;
+		if (newX >= pondWidth) newX = pondWidth;
+		if (newX <= 0) newX = 0;
+		if (newY >= pondHeight) newY = pondHeight;
+		if (newY <= 0) newY = 0;
 
-		if (newLeft >= pondWidth) newLeft = pondWidth;
-		if (newLeft <= 0) newLeft = 0;
-		if (newTop >= pondHeight) newTop = pondHeight;
-		if (newTop <= 0) newTop = 0;
-
-		currentFishDiv.style.left = `${newLeft}px`;
-		currentFishDiv.style.top = `${newTop}px`;
+		fishPositions.set(uuid, { x: newX, y: newY });
+		currentFishDiv.style.transform = `translate(${newX}px, ${newY}px)`;
 	}
 }
 
