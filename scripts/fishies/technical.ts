@@ -1,3 +1,5 @@
+import { moveSprite } from "./rendering.ts";
+
 export class GameConfig {
 	public readonly resetAt: number;
 	public readonly tickInterval: number;
@@ -72,6 +74,8 @@ export class Game {
 		} else {
 			this.counter++;
 		}
+
+		moveSprite();
 	}
 }
 

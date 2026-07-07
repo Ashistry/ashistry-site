@@ -1,4 +1,4 @@
-import type { RGB } from "./types.js";
+import type { RGB } from "./types.ts";
 
 export class Utility {
 	public static validateRGB(x: unknown): boolean {
@@ -62,6 +62,21 @@ export class Utility {
 			return result;
 		}
 	}
+
+	public static randomInRange(min: number, max: number): number {
+		const result = Math.floor(Math.random() * (max - min + 1)) + min;
+		return result;
+	}
+
+	public static plusOrMinus(x: number): number {
+		const result = Math.random();
+
+		if (result <= 0.5) {
+			return x;
+		} else {
+			return x * -1;
+		}
+	}
 }
 
-console.info("utility modulem loaded");
+console.info("utility module loaded");
