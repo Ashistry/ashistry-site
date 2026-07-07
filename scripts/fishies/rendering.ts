@@ -1,39 +1,49 @@
 import fishSprite from "../../assets/images/Easy-Fish-SVG.svg?raw";
-import { Fish } from "./fish.ts";
+import { ActiveStorage, Fish } from "./fish.ts";
 import { CSSWidth, CSSHeight } from "./types.ts";
 import { activeStorage } from "./fish.ts";
 
-export const pondDiv = document.getElementById("pond")!;
+const pondDiv = document.getElementById("pond")!;
 
-export const fishDiv: HTMLElement = document.createElement("div");
-fishDiv.innerHTML = fishSprite;
-fishDiv.style.position = "absolute";
-fishDiv.style.width = "100px"; // adjust as needed
-fishDiv.style.height = "100px"; // adjust as needed
+// class FishDiv {
+// 	private static readonly height: CSSHeight = "100px";
+// 	private static readonly width: CSSWidth = "100px";
 
-class FishDiv {
-	private static readonly height: CSSHeight = "100px";
-	private static readonly width: CSSWidth = "100px";
+// 	public constructor(fishToRender: Fish) {}
 
-	public constructor(fishToRender: Fish) {}
+// 	public createAndAdd() {}
+// }
 
-	public createAndAdd() {}
-}
-
-export function placeSpriteRandomly(): void {
-	//tick will call this function
-	pondDiv.appendChild(fishDiv);
-
+//loop for every Fish instance in activeStorage
+function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 	const pondWidth = pondDiv.clientWidth;
 	const pondHeight = pondDiv.clientHeight;
 
-	const randomX = Math.random() * (pondWidth - fishDiv.clientWidth);
-	const randomY = Math.random() * (pondHeight - fishDiv.clientHeight);
+	const activeStorageLength: number = activeStorage.getLength();
 
-	fishDiv.style.left = `${randomX}px`;
-	fishDiv.style.top = `${randomY}px`;
+	for (let i = 0; i < activeStorageLength; i++) {
+		const fishDiv: HTMLDivElement = document.createElement("div");
+		fishDiv.classList.add("fishSpriteDiv");
+		fishDiv.innerHTML = fishSprite;
+		fishDiv.style.position = "absolute";
+		fishDiv.style.width = "100px";
+		fishDiv.style.height = "100px";
+
+		const randomX = Math.random() * (pondWidth - fishDiv.clientWidth);
+		const randomY = Math.random() * (pondHeight - fishDiv.clientHeight);
+		fishDiv.style.left = `${randomX}px`;
+		fishDiv.style.top = `${randomY}px`;
+
+		pondDiv.appendChild(fishDiv);
+	}
 }
 
-placeSpriteRandomly();
+//loop for every Fish instance in activeStorage
+// export function moveSprite(): void {
+// 	const pondWidth = pondDiv.clientWidth;
+// 	const pondHeight = pondDiv.clientHeight;
+// }
+
+placeSpritesRandomly(activeStorage); //places sprites on reload of page
 
 console.info("rendering module loaded");

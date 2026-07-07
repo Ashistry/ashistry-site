@@ -113,6 +113,10 @@ export class FishStorage {
 			console.log(`Key: ${key}, Value: ${JSON.stringify(value)}`);
 		}
 	}
+
+	public getLength(): number {
+		return this.map.size;
+	}
 }
 
 export class ActiveStorage extends FishStorage {
