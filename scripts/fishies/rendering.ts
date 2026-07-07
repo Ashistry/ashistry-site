@@ -4,6 +4,8 @@ import { CSSWidth, CSSHeight } from "./types.ts";
 import { activeStorage } from "./fish.ts";
 
 const pondDiv = document.getElementById("pond")!;
+const pondWidth = pondDiv.clientWidth;
+const pondHeight = pondDiv.clientHeight;
 
 // class FishDiv {
 // 	private static readonly height: CSSHeight = "100px";
@@ -14,11 +16,7 @@ const pondDiv = document.getElementById("pond")!;
 // 	public createAndAdd() {}
 // }
 
-//loop for every Fish instance in activeStorage
 function placeSpritesRandomly(activeStorage: ActiveStorage): void {
-	const pondWidth = pondDiv.clientWidth;
-	const pondHeight = pondDiv.clientHeight;
-
 	const activeStorageLength: number = activeStorage.getLength();
 
 	for (let i = 0; i < activeStorageLength; i++) {
@@ -38,11 +36,7 @@ function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 	}
 }
 
-//loop for every Fish instance in activeStorage
-// export function moveSprite(): void {
-// 	const pondWidth = pondDiv.clientWidth;
-// 	const pondHeight = pondDiv.clientHeight;
-// }
+export function moveSprite(): void {}
 
 placeSpritesRandomly(activeStorage); //places sprites on reload of page
 
