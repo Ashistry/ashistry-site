@@ -96,7 +96,7 @@ function Outline(fishDiv: HTMLDivElement): void {
 	switch (fishDiv.dataset.outlineToggled) {
 		case "false":
 			fishDiv.style.border = "3px dashed red";
-			fishDiv.style.borderRadius = "15px";
+			fishDiv.style.borderRadius = "100px";
 			fishDiv.dataset.outlineToggled = "true";
 			fishOutlined++;
 			break;
