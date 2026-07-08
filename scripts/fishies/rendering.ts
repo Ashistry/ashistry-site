@@ -14,6 +14,8 @@ const pondHeight: number = pondDiv.clientHeight - pondHeightAdjustment;
 const minSpriteAdjustment: number = 0;
 const maxSpriteAdjustment: number = 100;
 
+let fishOutlined: number = 0;
+
 // Tracks each fish's current x/y position, since transform doesn't let us read it back out
 const fishPositions = new Map<string, { x: number; y: number }>();
 
@@ -26,6 +28,7 @@ function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 		fishDiv.classList.add("fishSpriteDiv");
 		fishDiv.dataset.fishUuid = uuid;
 		fishDiv.innerHTML = fishSprite;
+		fishDiv.dataset.outlineToggled = "false";
 
 		const [r, g, b] = fish.color;
 		const fishShapes = fishDiv.querySelectorAll("path");
@@ -36,6 +39,10 @@ function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 		fishDiv.style.position = "absolute";
 		fishDiv.style.width = "100px";
 		fishDiv.style.height = "100px";
+		fishDiv.onclick = function () {
+			console.log("clicked", fishDiv);
+			Outline(fishDiv);
+		};
 
 		// Smoothly animate any future transform changes over 1s
 		fishDiv.style.transition = "transform 1s ease-in-out";
@@ -51,8 +58,7 @@ function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 }
 
 export function moveSprite(): void {
-	const fishDivCollection: HTMLCollection =
-		document.getElementsByClassName("fishSpriteDiv");
+	const fishDivCollection: HTMLCollection = Utility.getFishDivCollection();
 
 	for (let i = 0; i < fishDivCollection.length; i++) {
 		const currentFishDiv: HTMLDivElement = fishDivCollection[
@@ -82,6 +88,25 @@ export function moveSprite(): void {
 	}
 }
 
+function Outline(fishDiv: HTMLDivElement): void {
+	if (fishOutlined >= 2 && fishDiv.dataset.outlineToggled === "false") {
+		return;
+	}
+
+	switch (fishDiv.dataset.outlineToggled) {
+		case "false":
+			fishDiv.style.border = "3px dashed red";
+			fishDiv.style.borderRadius = "15px";
+			fishDiv.dataset.outlineToggled = "true";
+			fishOutlined++;
+			break;
+		default:
+			fishDiv.style.border = "0px";
+			fishDiv.dataset.outlineToggled = "false";
+			fishOutlined--;
+			break;
+	}
+}
 placeSpritesRandomly(activeStorage); //places sprites on reload of page
 
 console.info("rendering module loaded");

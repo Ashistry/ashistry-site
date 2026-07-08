@@ -77,6 +77,10 @@ export class Utility {
 			return x * -1;
 		}
 	}
+
+	public static getFishDivCollection(): HTMLCollection {
+		return document.getElementsByClassName("fishSpriteDiv");
+	}
 }
 
 console.info("utility module loaded");
