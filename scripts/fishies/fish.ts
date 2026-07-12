@@ -26,7 +26,7 @@ export class FishNames {
 				);
 			}
 		}
-		// TypeScript requires a return here, but this is unreachable
+		// ts requires a return here, but this is unreachable
 		throw new Error("Unreachable");
 	}
 }
@@ -65,17 +65,25 @@ export class FishFactory {
 		color: RGB,
 		personality: FishPersonality,
 	): Fish {
-		return new Fish(UUID, name, color, personality);
+		const result = new Fish(UUID, name, color, personality);
+		return result;
 		//add to a storage or do whatever
 	}
 
-	public breedFish(parent1: Fish, parent2: Fish): void {
+	public breedFish(parent1: Fish, parent2: Fish): Fish {
 		const childColor = Utility.meanRGB(parent1.color, parent2.color);
 		const childName = this.names.randomName();
 		const childPersonality = parent1.personality; //placeholder
 		const childUUID = crypto.randomUUID();
 
-		this.createFish(childUUID, childName, childColor, childPersonality);
+		const result = this.createFish(
+			childUUID,
+			childName,
+			childColor,
+			childPersonality,
+		);
+		activeStorage.addFish(result);
+		return result;
 	}
 }
 
@@ -147,59 +155,6 @@ const blueFish: Fish = fishFactory.createFish(
 	[0, 0, 255],
 	[Utility.randEnumValue(PersonalityTraits)],
 );
-
-// const dummyFishNames: string[] = [
-// 	"finley",
-// 	"coral",
-// 	"nemo-clone",
-// 	"guppy",
-// 	"marlin",
-// 	"dory-jr",
-// 	"gil",
-// 	"bloop",
-// 	"sushi",
-// 	"captain-fin",
-// 	"pebbles",
-// 	"splash",
-// 	"tango",
-// 	"wanda",
-// 	"chip",
-// 	"goldie",
-// 	"pearl",
-// 	"flounder-x",
-// 	"scales",
-// 	"bubbles",
-// 	"nibbles",
-// 	"finn",
-// 	"rio",
-// 	"sandy",
-// 	"coral-bell",
-// 	"mochi",
-// 	"swish",
-// 	"ripple",
-// 	"tidal",
-// 	"drift",
-// 	"glimmer",
-// 	"koi-boy",
-// 	"sunny",
-// 	"shadow-fin",
-// 	"puddle",
-// 	"whisker-fin",
-// 	"banjo",
-// ];
-
-// const dummyFish: Fish[] = dummyFishNames.map((name) =>
-// 	fishFactory.createFish(
-// 		crypto.randomUUID(),
-// 		name as FishName,
-// 		[
-// 			Utility.randomInRange(0, 255),
-// 			Utility.randomInRange(0, 255),
-// 			Utility.randomInRange(0, 255),
-// 		],
-// 		[Utility.randEnumValue(PersonalityTraits) as PersonalityTraits],
-// 	),
-// );
 
 export const activeStorage = ActiveStorage.fromFish(
 	redFish,

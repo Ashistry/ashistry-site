@@ -3,6 +3,7 @@ import { ActiveStorage, Fish } from "./fish.ts";
 import { CSSWidth, CSSHeight } from "./types.ts";
 import { activeStorage } from "./fish.ts";
 import { Utility } from "./utility.ts";
+import { fishSelected, fishSelectedSetZero, select } from "./UI.ts";
 
 const pondDiv = document.getElementById("pond")!;
 
@@ -14,21 +15,29 @@ const pondHeight: number = pondDiv.clientHeight - pondHeightAdjustment;
 const minSpriteAdjustment: number = 0;
 const maxSpriteAdjustment: number = 100;
 
-let fishOutlined: number = 0;
-
 // Tracks each fish's current x/y position, since transform doesn't let us read it back out
 const fishPositions = new Map<string, { x: number; y: number }>();
 
-function placeSpritesRandomly(activeStorage: ActiveStorage): void {
+const fishSize = 100;
+
+export function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 	const activeStorageContents = activeStorage.readStorage();
-	const fishSize = 100;
+
+	fishSelectedSetZero();
+	const spritesOnScreen: NodeList = document.querySelectorAll(".fishSpriteDiv");
+
+	spritesOnScreen.forEach((element: any) => {
+		//clear old sprites
+		element.remove();
+	});
 
 	for (const [uuid, fish] of activeStorageContents) {
 		const fishDiv: HTMLDivElement = document.createElement("div");
 		fishDiv.classList.add("fishSpriteDiv");
 		fishDiv.dataset.fishUuid = uuid;
 		fishDiv.innerHTML = fishSprite;
-		fishDiv.dataset.outlineToggled = "false";
+		fishDiv.dataset.selected = "false";
+		fishDiv.dataset.name = fish.name;
 
 		const [r, g, b] = fish.color;
 		const fishShapes = fishDiv.querySelectorAll("path");
@@ -40,8 +49,7 @@ function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 		fishDiv.style.width = "100px";
 		fishDiv.style.height = "100px";
 		fishDiv.onclick = function () {
-			console.log("clicked", fishDiv);
-			Outline(fishDiv);
+			select(fishDiv);
 		};
 
 		// Smoothly animate any future transform changes over 1s
@@ -55,6 +63,39 @@ function placeSpritesRandomly(activeStorage: ActiveStorage): void {
 
 		pondDiv.appendChild(fishDiv);
 	}
+}
+
+export function placeNewSprite(fish: Fish): void {
+	const fishDiv: HTMLDivElement = document.createElement("div");
+	fishDiv.classList.add("fishSpriteDiv");
+	fishDiv.dataset.fishUuid = fish.UUID;
+	fishDiv.innerHTML = fishSprite;
+	fishDiv.dataset.selected = "false";
+	fishDiv.dataset.name = fish.name;
+
+	const [r, g, b] = fish.color;
+	const fishShapes = fishDiv.querySelectorAll("path");
+	fishShapes.forEach((shape) => {
+		(shape as SVGElement).style.fill = `rgb(${r}, ${g}, ${b})`;
+	});
+
+	fishDiv.style.position = "absolute";
+	fishDiv.style.width = "100px";
+	fishDiv.style.height = "100px";
+	fishDiv.onclick = function () {
+		select(fishDiv);
+	};
+
+	// Smoothly animate any future transform changes over 1s
+	fishDiv.style.transition = "transform 1s ease-in-out";
+
+	const randomX = Math.random() * (pondWidth - fishSize);
+	const randomY = Math.random() * (pondHeight - fishSize);
+
+	fishPositions.set(fish.UUID, { x: randomX, y: randomY });
+	fishDiv.style.transform = `translate(${randomX}px, ${randomY}px)`;
+
+	pondDiv.appendChild(fishDiv);
 }
 
 export function moveSprite(): void {
@@ -88,25 +129,6 @@ export function moveSprite(): void {
 	}
 }
 
-function Outline(fishDiv: HTMLDivElement): void {
-	if (fishOutlined >= 2 && fishDiv.dataset.outlineToggled === "false") {
-		return;
-	}
-
-	switch (fishDiv.dataset.outlineToggled) {
-		case "false":
-			fishDiv.style.border = "3px dashed red";
-			fishDiv.style.borderRadius = "100px";
-			fishDiv.dataset.outlineToggled = "true";
-			fishOutlined++;
-			break;
-		default:
-			fishDiv.style.border = "0px";
-			fishDiv.dataset.outlineToggled = "false";
-			fishOutlined--;
-			break;
-	}
-}
 placeSpritesRandomly(activeStorage); //places sprites on reload of page
 
 console.info("rendering module loaded");
