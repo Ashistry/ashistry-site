@@ -46,6 +46,10 @@ function breedFish(): void {
 		document.querySelectorAll('[data-selected="true"]'),
 	);
 
+	if (selectedFish.length < 2) {
+		return;
+	}
+
 	const parent1UUID: FishUUID = selectedFish[0]?.dataset.fishUuid as FishUUID;
 	const parent2UUID: FishUUID = selectedFish[1]?.dataset.fishUuid as FishUUID;
 

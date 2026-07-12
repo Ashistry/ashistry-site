@@ -29,6 +29,10 @@ export class FishNames {
 		// ts requires a return here, but this is unreachable
 		throw new Error("Unreachable");
 	}
+
+	public addName(name: string): void {
+		this.fishNamesArray.push(name);
+	}
 }
 
 export const fishNames = new FishNames(["bob", "melissa", "bartholamew"]);
@@ -70,10 +74,14 @@ export class FishFactory {
 		//add to a storage or do whatever
 	}
 
+	private generatePersonality(): FishPersonality {
+		return [Utility.randEnumValue(PersonalityTraits)];
+	}
+
 	public breedFish(parent1: Fish, parent2: Fish): Fish {
 		const childColor = Utility.meanRGB(parent1.color, parent2.color);
 		const childName = this.names.randomName();
-		const childPersonality = parent1.personality; //placeholder
+		const childPersonality = this.generatePersonality();
 		const childUUID = crypto.randomUUID();
 
 		const result = this.createFish(
@@ -156,11 +164,26 @@ const blueFish: Fish = fishFactory.createFish(
 	[Utility.randEnumValue(PersonalityTraits)],
 );
 
+const whiteFish: Fish = fishFactory.createFish(
+	crypto.randomUUID(),
+	"ghosty",
+	[255, 255, 255],
+	[Utility.randEnumValue(PersonalityTraits)],
+);
+
+const blackFish: Fish = fishFactory.createFish(
+	crypto.randomUUID(),
+	"licorique",
+	[0, 0, 0],
+	[Utility.randEnumValue(PersonalityTraits)],
+);
+
 export const activeStorage = ActiveStorage.fromFish(
 	redFish,
 	greenFish,
 	blueFish,
-	// ...dummyFish,
+	whiteFish,
+	blackFish,
 );
 
 export class DeepStorage extends FishStorage {
